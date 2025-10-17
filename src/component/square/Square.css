@@ -24,3 +24,8 @@
 .square--selected {
     background-color: #e5e976;
 }
+
+.square--possibleMoves {
+    cursor: pointer;
+    background-color: red;
+}

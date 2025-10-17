@@ -1,40 +1,33 @@
-import { useState, createContext, useContext, useCallback, useMemo } from "react"
-import { GameState } from "../type/chess"
+import React, { createContext, useContext, useReducer } from "react"
+import { GameAction, GameState } from "../type/chess"
 import { initialGameState } from "../game/state/initialState"
+import { gameReducer }  from "../game/state/gameReducer"
 
-const ChessContext = createContext<GameStateValue>({
-    gameState: initialGameState,
-    updateGameState: () => {}
-})
+const StateContext = createContext<GameState>(initialGameState)
+const DispatchContext = createContext<React.Dispatch<GameAction> | undefined>(undefined)
 
-export const useGetGameState = () => useContext(ChessContext)
+export const useGameState = () => useContext(StateContext)
 
-interface ChessContextProps {
-    children: React.ReactElement;
+export const useGameDispatch = () => {
+    const context = useContext(DispatchContext);
+    
+    if(context === undefined) {
+        throw new Error('useAppDispatch равен undefined')
+    }
+    
+    return context;
 }
 
-interface GameStateValue {
-    gameState: GameState,
-    updateGameState?: (state: GameState) => void,
-}
+function ChessProvider ({children}: {children: React.ReactNode}) {
 
-function ChessProvider ({children}: ChessContextProps) {
-
-    const [gameState, setGameState] = useState<GameState>(initialGameState)
-
-    const updateGameState = useCallback((state: GameState) => {
-        setGameState(state);
-    }, [])
-
-    const gameStateValue = useMemo(() => ({
-        gameState,
-        updateGameState
-    }), [gameState, updateGameState])
+    const [gameState, dispatch] = useReducer(gameReducer, initialGameState)
 
     return (
-        <ChessContext.Provider value={gameStateValue}>
-            {children}
-        </ChessContext.Provider>
+        <StateContext.Provider value={gameState}>
+            <DispatchContext.Provider value={dispatch}>
+                {children}
+            </DispatchContext.Provider>
+        </StateContext.Provider>
     )
 }
 

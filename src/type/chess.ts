@@ -17,7 +17,7 @@ export interface Move {
     to: Position,
     piece: Piece,
     capturedPiece?: Piece,
-    promotion: PieceType,
+    promotion?: PieceType,
     isCheck?: boolean,
     isisCheckmate?: boolean,
 }
@@ -33,7 +33,7 @@ export interface GameState {
 }
 
 export type GameAction = 
-    | { type: 'SELECT_PIECE'; payload: Piece | null }
+    | { type: 'SELECT_PIECE'; payload: Piece }
     | { type: 'MOVE_PIECE'; payload: Position }
     | { type: 'PROMOTE_PAWN'; payload: PieceType }
     | { type: 'RESET_GAME' }

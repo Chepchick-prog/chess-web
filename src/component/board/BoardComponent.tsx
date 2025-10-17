@@ -1,25 +1,45 @@
 import SquareComponent from "../square/SquareComponent";
-import { useGetGameState } from "../../context/ChessContext";
 
 import '../board/Board.css'
-import { useReducer } from "react";
-import { gameReducer } from "../../game/state/gameReducer";
-import { Piece } from "../../type/chess";
+import { Piece, Position } from "../../type/chess";
+import { useGameState, useGameDispatch } from "../../context/ChessContext";
 
 function BoardComponent () {
 
-    const { gameState, updateGameState } = useGetGameState()
+    const gameState = useGameState()
+    const dispatch = useGameDispatch()
 
-    const [ state, dispatch ] = useReducer(gameReducer, gameState)
-
-    const handleSelectedPiece = ({...piece}: Piece | null) => {
-        
+    const handleSelectedPiece = ({...piece}: Piece) => {
         dispatch({
             type: 'SELECT_PIECE',
-            payload: piece,
+            payload: piece
+        })
+    }
+
+    const handleMovePiece = ({...position}: Position) => {
+        dispatch({
+            type: 'MOVE_PIECE',
+            payload : position
         })
 
     }
+
+    const possibleMoves = (piece: Piece | null, rowIndex: number, colIndex: number): boolean => {
+
+        let isActive: boolean = false
+        
+        gameState.possibleMoves.map(item => {
+            if((item.row === rowIndex) && (item.col === colIndex)) {
+                return  isActive = true
+            } else {
+                return isActive
+            }
+        })
+
+        return isActive
+    }
+
+    console.log(gameState)
 
     return (
         <div className="board">
@@ -30,9 +50,11 @@ function BoardComponent () {
                             key={piece?.id || `${rowIndex}-${colIndex}`}
                             piece={piece}
                             position={{row: rowIndex, col: colIndex}}
-                            isSelected={state.selectedPiece?.position.row === rowIndex && state.selectedPiece?.position.col === colIndex}
-                            onClick={() => handleSelectedPiece(piece)}
-
+                            isSelected={gameState.selectedPiece?.position.row === rowIndex && gameState.selectedPiece?.position.col === colIndex}
+                            isPossibleMoves={possibleMoves(piece, rowIndex, colIndex)}
+                            onChangeSelect={() => piece && handleSelectedPiece(piece)}
+                            onChangeMove={() => handleMovePiece({row: rowIndex, col: colIndex})}
+                            
                         />
                     ))}
                 </div>

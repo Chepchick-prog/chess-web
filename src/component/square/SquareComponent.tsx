@@ -8,11 +8,13 @@ interface SquareProps {
     piece: Piece | null,
     position: Position,
     isSelected: boolean,
-    onClick: () => void,
+    isPossibleMoves: boolean,
+    onChangeSelect: () => void,
+    onChangeMove: () => void,
 
 }
 
-const SquareComponent: React.FC<SquareProps> = ({ piece, position, isSelected, onClick }) => {
+const SquareComponent: React.FC<SquareProps> = ({ piece, position, isSelected = false, isPossibleMoves, onChangeSelect, onChangeMove }) => {
     
     const isDark = (position.row + position.col) % 2 === 1
 
@@ -20,6 +22,7 @@ const SquareComponent: React.FC<SquareProps> = ({ piece, position, isSelected, o
         square
         ${isDark ? 'square--black' : 'square--white'}
         ${isSelected && 'square--selected'}
+        ${isPossibleMoves && 'square--possibleMoves'}
         ${piece && 'squere-piece'}
 
     `.trim();
@@ -27,7 +30,10 @@ const SquareComponent: React.FC<SquareProps> = ({ piece, position, isSelected, o
     return (
         <div 
             className={squareClass}
-            onClick={() => piece && onClick()}
+            onClick={() => {
+                piece && onChangeSelect()
+                isPossibleMoves && onChangeMove()
+            }}
             >
             {piece && (
                 <PieceComponent
