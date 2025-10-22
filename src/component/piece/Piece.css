@@ -1,3 +1,7 @@
 .piece {
     font-size: 56px;
 }
+
+.piece img {
+    max-height: 50px;
+}

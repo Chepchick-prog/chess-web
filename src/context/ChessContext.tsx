@@ -10,7 +10,7 @@ export const useGameState = () => useContext(StateContext)
 
 export const useGameDispatch = () => {
     const context = useContext(DispatchContext);
-    
+        
     if(context === undefined) {
         throw new Error('useAppDispatch равен undefined')
     }

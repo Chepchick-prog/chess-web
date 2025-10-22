@@ -1,4 +1,4 @@
-import { Piece, Position } from "../../type/chess"
+import { Col, Piece, Position } from "../../type/chess"
 import PieceComponent from "../piece/PieceComponent"
 
 
@@ -22,7 +22,6 @@ const SquareComponent: React.FC<SquareProps> = ({ piece, position, isSelected = 
         square
         ${isDark ? 'square--black' : 'square--white'}
         ${isSelected && 'square--selected'}
-        ${isPossibleMoves && 'square--possibleMoves'}
         ${piece && 'squere-piece'}
 
     `.trim();
@@ -35,12 +34,17 @@ const SquareComponent: React.FC<SquareProps> = ({ piece, position, isSelected = 
                 isPossibleMoves && onChangeMove()
             }}
             >
+            {piece && isPossibleMoves && <img className="--possibleMovesPiece" src="/img/possibleMovesPiece-icon.png" alt="possible-move-icon"/>}
+            {!piece && isPossibleMoves && <img className="--possibleMoves" src="/img/possible-move-icon.png" alt="possible-move-icon"/>}
             {piece && (
                 <PieceComponent
                     piece={piece}
                     position={position}
                 />
             )}
+            {position.col === 7 && <h4 className="row-index">{8 - position.row}</h4>}
+            {position.row === 7 && <h4 className="col-index">{Col[position.col]}</h4>}
+            
         </div>
     )
 }

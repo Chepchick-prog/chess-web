@@ -1,4 +1,5 @@
 .square {
+    position: relative;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -6,11 +7,23 @@
     width: 100%;
     height: 100%;
 
-    border: 1px solid black;
+    /* border: 1px solid black; */
+}
+
+.square .row-index {
+    top: 5px;
+    right: 5px;
+    position: absolute;
+}
+
+.square .col-index {
+    bottom: 5px;
+    left: 5px;
+    position: absolute;
 }
 
 .square--black {
-    background-color: #0077B6;
+    background-color: #4A4135;
 }
 
 .squere-piece {
@@ -18,14 +31,23 @@
 }
 
 .square--white {
-    background-color: #CAF0F8;
+    background-color: #FFD8B4;
 }
 
 .square--selected {
-    background-color: #e5e976;
+    background-color: rgb(81, 122, 79);
 }
 
-.square--possibleMoves {
+.--possibleMoves {
     cursor: pointer;
-    background-color: red;
+    position: absolute;
+    width: 100%;
+    height: 100%;
+}
+
+.--possibleMovesPiece {
+    cursor: pointer;
+    position: absolute;
+    width: 100%;
+    height: 100%;
 }

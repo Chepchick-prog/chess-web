@@ -24,7 +24,7 @@ function BoardComponent () {
 
     }
 
-    const possibleMoves = (piece: Piece | null, rowIndex: number, colIndex: number): boolean => {
+    const possibleMoves = (rowIndex: number, colIndex: number): boolean => {
 
         let isActive: boolean = false
         
@@ -51,7 +51,7 @@ function BoardComponent () {
                             piece={piece}
                             position={{row: rowIndex, col: colIndex}}
                             isSelected={gameState.selectedPiece?.position.row === rowIndex && gameState.selectedPiece?.position.col === colIndex}
-                            isPossibleMoves={possibleMoves(piece, rowIndex, colIndex)}
+                            isPossibleMoves={possibleMoves(rowIndex, colIndex)}
                             onChangeSelect={() => piece && handleSelectedPiece(piece)}
                             onChangeMove={() => handleMovePiece({row: rowIndex, col: colIndex})}
                             

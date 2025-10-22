@@ -12,33 +12,33 @@ const PieceComponent: React.FC<PieceProps> = ({piece}) => {
 
     return (
         <div className="piece">
-            {getPieceSimbol(piece)}
+            <img src={getPieceSimbol(piece)} alt="piece." />
         </div>
     )
 }
 
 function getPieceSimbol (piece: Piece) :string {
-    const whiteSimbol = {
-        [PieceType.KING]: '♔',
-        [PieceType.QUEEN]: '♕',
-        [PieceType.ROOK]: '♖',
-        [PieceType.BISHOP]: '♗',
-        [PieceType.KNIGHT]: '♘',
-        [PieceType.PAWN]: '♙',
+    const whitePiece = {
+        [PieceType.KING]: "/img/piece/king-w.png",
+        [PieceType.QUEEN]: "/img/piece/queen-w.png",
+        [PieceType.ROOK]: "/img/piece/rook-w.png",
+        [PieceType.BISHOP]: "/img/piece/bishop-w.png",
+        [PieceType.KNIGHT]: "/img/piece/knight-w.png",
+        [PieceType.PAWN]: "/img/piece/pawn-w.png",
     }
 
-    const blackSimbol = {
-        [PieceType.KING]: '♚',
-        [PieceType.QUEEN]: '♛',
-        [PieceType.ROOK]: '♜',
-        [PieceType.BISHOP]: '♝',
-        [PieceType.KNIGHT]: '♞',
-        [PieceType.PAWN]: '♟',
+    const blackPiece = {
+        [PieceType.KING]: "/img/piece/king-b.png",
+        [PieceType.QUEEN]: "/img/piece/queen-b.png",
+        [PieceType.ROOK]: "/img/piece/rook-b.png",
+        [PieceType.BISHOP]: "/img/piece/bishop-b.png",
+        [PieceType.KNIGHT]: "/img/piece/knight-b.png",
+        [PieceType.PAWN]: "/img/piece/pawn-b.png",
     }
 
     return piece.color === Color.WHITE
-        ? whiteSimbol[piece.type]
-        : blackSimbol[piece.type]
+        ? whitePiece[piece.type]
+        : blackPiece[piece.type]
 }
 
 export default PieceComponent;
