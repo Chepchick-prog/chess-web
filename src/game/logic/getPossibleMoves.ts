@@ -1,60 +1,47 @@
-import { Board, Piece, PieceType, PossibleMoves } from "../../type/chess";
-import { getBishopMove } from "./getBishopMove";
-import { getKingMove } from "./getKingMove";
-import { getKnightMove } from "./getKnightMove";
-import { getPieceMove } from "./getPieceMove";
-import { getQueenMove } from "./getQueenMove";
-import { getRookMove } from "./getRookMove";
+import { Board, Piece, PieceType, Position } from "../../type/chess";
+import { isSquareAttacked } from "./isSquareAttacked";
+import { getBishopMove } from "./moves/getBishopMove";
+import { getKingMove } from "./moves/getKingMove";
+import { getKnightMove } from "./moves/getKnightMove";
+import { getPawnMove } from "./moves/getPawnMove";
+import { getQueenMove } from "./moves/getQueenMove";
+import { getRookMove } from "./moves/getRookMove";
 
-function getPossibleMoves (piece: Piece, board: Board): PossibleMoves {
+export function getPossibleMoves (piece: Piece, board: Board, checkPieces: Piece[] = []): Position[] {
 
-    // console.log('piece: ' , piece)
-    // console.log('board: ' , board)
+    let possibleMoves: Position[] = []
 
-    let possibleMoves: PossibleMoves = []
-
-    if(piece.type === PieceType.PAWN) {
-        console.log("this PAWN!")
-
-        possibleMoves = getPieceMove(piece, board)
+    switch(piece.type){
+        case PieceType.PAWN:
+            possibleMoves = getPawnMove(piece, board);
+            break;
+        case PieceType.KNIGHT:
+            possibleMoves = getKnightMove(piece, board);
+            break;
+        case PieceType.BISHOP:
+            possibleMoves = getBishopMove(piece, board);
+            break;
+        case PieceType.ROOK:
+            possibleMoves = getRookMove(piece, board);
+            break;
+        case PieceType.QUEEN:
+            possibleMoves = getQueenMove(piece, board);
+            break;
+        case PieceType.KING:
+            possibleMoves = getKingMove(piece, board);
+            break;
+        default: 
+            console.error('Piece type is not defined')
+            break;
     }
+    
+    if(checkPieces.length > 0) {
 
-    if(piece.type === PieceType.KNIGHT) {
+        possibleMoves = possibleMoves.filter(targetPosition => {
 
-        console.log("this KNIGHT!")
-
-        possibleMoves = getKnightMove(piece, board)
-    }
-
-    if(piece.type === PieceType.BISHOP) {
-
-        console.log("this BISHOP!")
-
-        possibleMoves = getBishopMove(piece, board)
-    }
-
-    if(piece.type === PieceType.QUEEN) {
-
-        console.log("this QUEEN!")
-
-        possibleMoves = getQueenMove(piece, board)
-    }
-
-    if(piece.type === PieceType.ROOK) {
-
-        console.log("this ROOK!")
-
-        possibleMoves = getRookMove(piece, board)
-    }
-
-    if(piece.type === PieceType.KING) {
-
-        console.log("this ROKINGOK!")
-
-        possibleMoves = getKingMove(piece, board)
+            return !isSquareAttacked(targetPosition, board, piece)
+        })
     }
 
     return possibleMoves;
 }
-
-export default getPossibleMoves;

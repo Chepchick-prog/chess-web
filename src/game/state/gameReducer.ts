@@ -1,6 +1,7 @@
-import { GameAction, GameState, Piece, Board } from "../../type/chess";
-import getNewBoard from "../logic/getNewBoard";
-import getPossibleMoves from "../logic/getPossibleMoves";
+import { GameAction, GameState, Move, Piece, Position } from "../../type/chess";
+import { castlingValidMove } from "../logic/castlingValidMove";
+import { getPieceMove } from "../logic/getPieceMove";
+import { getPossibleMoves } from "../logic/getPossibleMoves";
 
 export function gameReducer ( state: GameState, action: GameAction ): GameState {
 
@@ -16,14 +17,20 @@ export function gameReducer ( state: GameState, action: GameAction ): GameState 
                 return {
                     ...state,
                     selectedPiece: null,
-                    possibleMoves: []}
+                    possibleMoves: [],
+                    // castlingRights: null
+                }
             } else {
-                const newPossibleMoves = getPossibleMoves(action.payload, state.board)
+                let newPossibleMoves: Position[] = getPossibleMoves(action.payload, state.board, state.checkPieces)
+
+                // const newCastlingRights = castlingValidMove(selectedPiece, state.board)
 
                 return {
                     ...state,
                     selectedPiece: selectedPiece,
                     possibleMoves: newPossibleMoves,
+                    moveHistory: [...state.moveHistory],
+                    // castlingRights: newCastlingRights,
                 }
             }
         } else {
@@ -33,20 +40,13 @@ export function gameReducer ( state: GameState, action: GameAction ): GameState 
 
     if(action.type === "MOVE_PIECE") {
 
-        let board: Board = []
+        if (!state.selectedPiece) return state;
 
-        if(state.selectedPiece !== null) {
-            board = getNewBoard(state.board, action.payload, state.selectedPiece)
-        }
+        let newState: GameState = {...state}
 
-        return {
-            ...state,
-            board: board,
-            selectedPiece: null,
-            possibleMoves:[],
-            currentPlayer: state.currentPlayer === 0 ? 1 : 0,
-            moveHistory: []
-        }
+        newState = getPieceMove(state, action.payload, state.selectedPiece)
+        
+        return newState
     }
     
 

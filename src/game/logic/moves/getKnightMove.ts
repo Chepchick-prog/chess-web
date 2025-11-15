@@ -1,8 +1,8 @@
-import { Board, Piece, PossibleMoves } from "../../type/chess"
+import { Piece, Board, Position } from "../../../type/chess"
 
-export const getKnightMove = (piece: Piece, board: Board): PossibleMoves => {
+export const getKnightMove = (piece: Piece, board: Board): Position[] => {
 
-    let possibleMoves: PossibleMoves = [
+    let possibleMoves: Position[] = [
         {
             row: piece.position.row + 2,
             col: piece.position.col + 1

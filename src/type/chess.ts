@@ -5,7 +5,7 @@ export enum Color { WHITE, BLACK };
 export type Position = {row: number, col: number}
 export type Board = (Piece | null)[][];
 export type GameStatus = 'playing' | 'check' | 'checkmate' | 'stelmate'
-export type PossibleMoves = Position[]
+export type SpecialMove = 'castling' | 'en_passent' | 'promotion'
 
 export interface Piece {
     id: string,
@@ -19,10 +19,10 @@ export interface Move {
     from: Position,
     to: Position,
     piece: Piece,
-    capturedPiece?: Piece,
+    capturedPiece?: Piece | null,
     promotion?: PieceType,
     isCheck?: boolean,
-    isisCheckmate?: boolean,
+    isCheckmate?: boolean,
 }
 
 export interface GameState {
@@ -32,7 +32,8 @@ export interface GameState {
     possibleMoves: Position[],
     moveHistory: Move[],
     status: GameStatus,
-    checkPosition: Position | null,
+    checkPieces: Piece[],
+    castlingRights: Position[] | null;
 }
 
 export type GameAction = 

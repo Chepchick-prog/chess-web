@@ -1,101 +1,52 @@
-import { Board, Piece, PossibleMoves } from "../../type/chess"
+import { Board, Color, GameState, Piece, Position } from "../../type/chess";
+import { getBoardChecks } from "./getBoardChecks";
 
-export const getPieceMove = (piece: Piece, board: Board): PossibleMoves => {
+export function getPieceMove (state: GameState, newPosition: Position, selectedPiece: Piece): GameState {
 
-    const moveCount = piece.hasMoved ? 1 : 2
-    const position = piece.position
+    const newBoard = updateBoard (state.board, selectedPiece, newPosition)
 
-    const possibleMoves: PossibleMoves = []
+    const currentPlayer: Color = selectedPiece.color === 0 ? 1 : 0
 
-    for(let i = 1; i <= moveCount; i++) {
-        
-        if(piece.color === 0) {
+    const checkPieces: Piece[] = getBoardChecks(newBoard, currentPlayer)
 
-            const activeSquare = {row: position.row - i, col: position.col}
-            
-            if((activeSquare.row >= 0 && activeSquare.row <= 7) && (activeSquare.col >= 0 && activeSquare.col <= 7)) {
+    const isCheck: boolean = checkPieces.length > 0
 
-                const isValid = board[activeSquare.row][activeSquare.col]
-
-                let thisOpponents = [board[position.row - 1][position.col + 1], board[position.row - 1][position.col - 1]]
-
-                thisOpponents = thisOpponents.filter(item => item !== null && item !== undefined)
-
-                if ( isValid === null ) {
-                    possibleMoves.push(
-                        {
-                            row: piece.position.row - i,
-                            col: piece.position.col
-                        }
-                    )
-
-                    thisOpponents.forEach(item => {
-                        if((item !== null) && item.color === 1) {
-                            possibleMoves.push(
-                            {
-                                row: item.position.row,
-                                col: item.position.col
-                            })
-                        }
-                    })
-                    
-                } else {
-                    thisOpponents.forEach(item => {
-                        if((item !== null) && item.color === 1) {
-                            possibleMoves.push(
-                            {
-                                row: item.position.row,
-                                col: item.position.col
-                            })
-                        }
-                    })
-                }
+    return {...state,
+        board: newBoard,
+        currentPlayer: currentPlayer,
+        selectedPiece: null,
+        possibleMoves: [],
+        moveHistory: [
+            ...state.moveHistory,
+            {
+                from: selectedPiece.position,
+                to: newPosition,
+                piece: selectedPiece,
+                capturedPiece: state.board[newPosition.row][newPosition.col],
+                isCheck: isCheck,
             }
-            
-        } else {
-
-            const activeSquare = {row: position.row + i, col: position.col}
-            
-            if((activeSquare.row >= 0 && activeSquare.row <= 7) && (activeSquare.col >= 0 && activeSquare.col <= 7)) {
-
-                const isValid = board[activeSquare.row][activeSquare.col]
-
-                let thisOpponents = [board[position.row + 1][position.col + 1], board[position.row + 1][position.col - 1]]
-
-                thisOpponents = thisOpponents.filter(item => item !== null && item !== undefined)
-
-                if ( isValid === null ) {
-                    possibleMoves.push(
-                        {
-                            row: piece.position.row + i,
-                            col: piece.position.col
-                        }
-                    )
-
-                    thisOpponents.forEach(item => {
-                        if((item !== null) && item.color === 0) {
-                            possibleMoves.push(
-                            {
-                                row: item.position.row,
-                                col: item.position.col
-                            })
-                        }
-                    })
-                    
-                } else {
-                    thisOpponents.forEach(item => {
-                        if((item !== null) && item.color === 0) {
-                            possibleMoves.push(
-                            {
-                                row: item.position.row,
-                                col: item.position.col
-                            })
-                        }
-                    })
-                }
-            }
-        }
+        ],
+        status: isCheck ? 'check' : "playing",
+        checkPieces: checkPieces,
     }
+}
 
-    return possibleMoves;
+export function updateBoard (board : Board, selectedPiece: Piece, newPosition: Position): Board {
+
+    const prevPosition = selectedPiece.position
+
+    return board.map((row, rowIndex) => {
+        return row.map((col, colIndex) => {
+            if(rowIndex === prevPosition.row && colIndex === prevPosition.col) {
+                return null
+            } else if(rowIndex === newPosition.row && colIndex === newPosition.col) {
+                return {...selectedPiece,
+                    position: {row:rowIndex, col: colIndex},
+                    hasMoved: true,
+                }
+            } else {
+                return col
+            }
+        })
+    })
 }

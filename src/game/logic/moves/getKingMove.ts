@@ -1,11 +1,67 @@
-import { Board, Piece, PossibleMoves } from "../../type/chess"
+import { Piece, Board, Position, PieceType } from "../../../type/chess"
 
-export const getKingMove = (piece: Piece, board: Board): PossibleMoves => {
+export const getKingMove = (piece: Piece, board: Board): Position[] => {
 
     const position = piece.position
 
-    let possibleMoves: PossibleMoves = []
+    let possibleMoves: Position[] = []
 
+    // if(!piece.hasMoved) {
+    //     for(let i = 1; i < board.length; i++) {
+
+    //         const activeSquare = {row: piece.position.row, col: piece.position.col - i}
+
+    //         console.log(activeSquare)
+
+    //         if(board[activeSquare.row][activeSquare.col] !== null) {
+    //             const selectPiece = board[activeSquare.row][activeSquare.col]
+    //             if(selectPiece?.type === PieceType.ROOK) {
+    //                 possibleMoves.push(
+    //                     {
+    //                         row: selectPiece.position.row,
+    //                         col: selectPiece.position.col
+    //                     },
+    //                     {
+    //                         row: piece.position.row,
+    //                         col: piece.position.col - 2
+    //                     },
+    //                 )
+                    
+    //             } else {
+    //                 console.log("Фигура на пути")
+    //                 break;
+    //             }
+    //         }
+    //     }
+
+    //     for(let i = 1; i < board.length; i++) {
+
+    //         const activeSquare = {row: piece.position.row, col: piece.position.col + i}
+
+    //         console.log(activeSquare)
+
+    //         if(board[activeSquare.row][activeSquare.col] !== null) {
+    //             const selectPiece = board[activeSquare.row][activeSquare.col]
+                
+    //             if(selectPiece?.type === PieceType.ROOK) {
+    //                 possibleMoves.push(
+    //                     {
+    //                         row: selectPiece.position.row,
+    //                         col: selectPiece.position.col
+    //                     },
+    //                     {
+    //                         row: piece.position.row,
+    //                         col: piece.position.col + 2
+    //                     },
+    //                 )
+                    
+    //             } else {
+    //                 console.log("Фигура на пути")
+    //                 break;
+    //             }
+    //         }
+    //     }
+    // }
 
     for(let i = 1; i <= 1; i ++) {
 

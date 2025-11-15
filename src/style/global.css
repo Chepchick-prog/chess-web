@@ -5,9 +5,76 @@
 }
 
 main {
-  display: grid;
   width: 100vw;
   height: 100vh;
-  align-items: center;
+
+  color: white;
+  background-color: #171A21;
+}
+
+.chess .vertical {
+  display: grid;
+  grid-template-rows: 100px 1fr;
+}
+
+.chess .game-info {
+  display: inline-flex;
+  flex-direction: column;
   justify-content: center;
+  align-items: center;
+
+  gap: 10px;
+}
+
+.game-info h5 {
+  font-size: 20px;
+}
+
+.chess .horizontal {
+  display: flex;
+  justify-content: center;
+
+  gap: 30px;
+}
+
+.history-move {
+  width: calc(100% / 4);
+  min-width: 200px;
+  height: 100%;
+
+  background-color: #4A4135;
+  border: 1px solid #FFD8B4;
+  border-radius: 10px;
+}
+
+.history-move h5 {
+
+  padding: 5px 0;
+  text-align: center;
+
+  font-size: 20px;
+  color: #FFD8B4;
+
+  border-bottom: 1px solid #FFD8B4;
+}
+
+.history-move .list-move {
+  padding-inline-start: 7px;
+  padding-inline-end: 3px;
+  padding-top: 7px;
+  padding-bottom: 7px;
+}
+
+.history-move .list-item {
+  display: inline-block;
+
+  padding: .25em .17em;
+  margin-bottom: 3px;
+  margin-inline-end: 2px;
+
+  font-size: 13px;
+  
+  border-radius: 6px;
+  color: #3E3C3C;
+  background-color: #FFD8B4;
 }

@@ -1,7 +1,7 @@
 import SquareComponent from "../square/SquareComponent";
 
 import '../board/Board.css'
-import { Piece, Position } from "../../type/chess";
+import { Piece, PieceType, Position } from "../../type/chess";
 import { useGameState, useGameDispatch } from "../../context/ChessContext";
 
 function BoardComponent () {
@@ -39,6 +39,21 @@ function BoardComponent () {
         return isActive
     }
 
+    function changeCheck (piece: Piece | null): boolean {
+
+        let isActive: boolean = false
+
+        if (piece !== null) {
+            if(piece.type === PieceType.KING && piece.color === gameState.currentPlayer && gameState.status === 'check') {
+                return isActive = true
+            } else {
+                return isActive
+            }
+        }
+
+        return isActive
+    }
+
     console.log(gameState)
 
     return (
@@ -52,9 +67,10 @@ function BoardComponent () {
                             position={{row: rowIndex, col: colIndex}}
                             isSelected={gameState.selectedPiece?.position.row === rowIndex && gameState.selectedPiece?.position.col === colIndex}
                             isPossibleMoves={possibleMoves(rowIndex, colIndex)}
+                            castlingPosition={gameState.castlingRights}
+                            isCheck={changeCheck(piece)}
                             onChangeSelect={() => piece && handleSelectedPiece(piece)}
                             onChangeMove={() => handleMovePiece({row: rowIndex, col: colIndex})}
-                            
                         />
                     ))}
                 </div>

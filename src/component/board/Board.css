@@ -3,6 +3,8 @@
     grid-template-rows: repeat(8, 1fr);
     width: 600px;
     height: 600px;
+
+    /* outline: 20px solid olive; */
 }
 
 .row {

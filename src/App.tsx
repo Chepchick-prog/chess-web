@@ -1,5 +1,5 @@
 import BoardComponent from './component/board/BoardComponent';
-import ActionConponent from './component/features/ActionComponent';
+import { ActionComponent } from './component/features/ActionComponent';
 import ChessProvider from './context/ChessContext';
 import './style/global.css';
 
@@ -8,8 +8,9 @@ function App() {
   return (
     <main>
       <ChessProvider>
-        <ActionConponent/>
-        <BoardComponent/>
+        <ActionComponent>
+          <BoardComponent/>
+        </ActionComponent>
       </ChessProvider>
     </main>
   );

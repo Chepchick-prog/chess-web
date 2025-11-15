@@ -1,7 +1,11 @@
 import { useGameState, useGameDispatch } from "../../context/ChessContext"
-import { Color } from "../../type/chess"
+import { Col, Color } from "../../type/chess"
 
-export default function ActionConponent () {
+interface ActionComponentProps {
+    children: React.ReactNode
+}
+
+export const ActionComponent: React.FC<ActionComponentProps> = ({children}) => {
 
     const gameState = useGameState()
 
@@ -14,9 +18,24 @@ export default function ActionConponent () {
     }
         
     return (
-        <div>
-            <h5>Current player: {Color[gameState.currentPlayer]}</h5>
-            <button onClick={ () => handleRotateBoard() }>Перевернуть доску</button>
+        <div className="chess">
+            <div className="vertical">
+                <div className="game-info">
+                    <h5>Current player: {Color[gameState.currentPlayer]}</h5>
+                    <button onClick={ () => handleRotateBoard() }>Перевернуть доску</button>
+                </div>
+                <div className="horizontal">
+                    {children}
+                    {/* <div className="history-move">
+                        <h5>History Move</h5>
+                        <div className="list-move">
+                            {gameState.moveHistory.map((move, index) => (
+                                <h4 key={index} className="list-item">{`${index + 1}. ${8 - move.to.row}${Col[move.to.col]}`}</h4>
+                            ))}
+                        </div>
+                    </div> */}
+                </div>
+            </div>
 
         </div>
     )
