@@ -1,15 +1,10 @@
 import { Board, Color, GameState, Piece, Position } from "../../type/chess";
-import { getBoardChecks } from "./getBoardChecks";
 
 export function getPieceMove (state: GameState, newPosition: Position, selectedPiece: Piece): GameState {
 
     const newBoard = updateBoard (state.board, selectedPiece, newPosition)
 
     const currentPlayer: Color = selectedPiece.color === 0 ? 1 : 0
-
-    const checkPieces: Piece[] = getBoardChecks(newBoard, currentPlayer)
-
-    const isCheck: boolean = checkPieces.length > 0
 
     return {...state,
         board: newBoard,
@@ -23,11 +18,8 @@ export function getPieceMove (state: GameState, newPosition: Position, selectedP
                 to: newPosition,
                 piece: selectedPiece,
                 capturedPiece: state.board[newPosition.row][newPosition.col],
-                isCheck: isCheck,
             }
         ],
-        status: isCheck ? 'check' : "playing",
-        checkPieces: checkPieces,
     }
 }
 

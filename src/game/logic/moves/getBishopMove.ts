@@ -134,7 +134,5 @@ export const getBishopMove = (piece: Piece, board: Board): Position[] => {
         }
     }
 
-    // console.log(possibleMoves)
-
     return possibleMoves
 }

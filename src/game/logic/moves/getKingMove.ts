@@ -313,7 +313,6 @@ export const getKingMove = (piece: Piece, board: Board): Position[] => {
             }
         }
     }
-    // console.log(possibleMoves)
 
     return possibleMoves
 }

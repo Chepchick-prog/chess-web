@@ -19,7 +19,7 @@ const SquareComponent: React.FC<SquareProps> = ({ piece, position, isSelected = 
     
     const isDark = (position.row + position.col) % 2 === 1
     
-    const even = (element: Position) => element.col == position.col && element.row === position.row;
+    const even = (element: Position) => element.col === position.col && element.row === position.row;
 
     const isCastlingPosition = castlingPosition?.some(even)
 

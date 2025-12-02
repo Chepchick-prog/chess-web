@@ -42,6 +42,18 @@ export function createInitialBoard (): Board {
     board[7][6] = createPiece(PieceType.KNIGHT, Color.WHITE, {row: 7, col: 6})
     board[7][7] = createPiece(PieceType.ROOK, Color.WHITE, {row: 7, col: 7})
 
+
+    // Test CHECKMATE
+
+    // board[7][4] = createPiece(PieceType.KING, Color.WHITE, {row: 7, col: 4})
+    // board[0][0] = createPiece(PieceType.KING, Color.BLACK, {row: 0, col: 0})
+
+    // board[0][1] = createPiece(PieceType.KNIGHT, Color.BLACK, {row: 0, col: 1})
+
+    // board[7][1] = createPiece(PieceType.QUEEN, Color.WHITE, {row: 7, col: 1})
+    // board[6][5] = createPiece(PieceType.QUEEN, Color.WHITE, {row: 6, col: 5})
+
+
     return board;
 }
 

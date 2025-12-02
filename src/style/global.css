@@ -26,6 +26,11 @@ main {
   gap: 10px;
 }
 
+.game-info div {
+  display: flex;
+  gap: 20px;
+}
+
 .game-info h5 {
   font-size: 20px;
 }

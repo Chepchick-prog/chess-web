@@ -22,6 +22,13 @@ export const ActionComponent: React.FC<ActionComponentProps> = ({children}) => {
             <div className="vertical">
                 <div className="game-info">
                     <h5>Current player: {Color[gameState.currentPlayer]}</h5>
+                    <div>
+                        <h4>Game state: {gameState.status}</h4>
+                        {gameState.status === 'checkmate' &&
+                            <h4>Winner: {gameState.currentPlayer}</h4>
+                        }
+                        
+                    </div>
                     <button onClick={ () => handleRotateBoard() }>Перевернуть доску</button>
                 </div>
                 <div className="horizontal">

@@ -5,8 +5,8 @@ export function getBoardChecks (board: Board, currentPlayer: Color): Piece[] {
 
     const checkPieces: Piece[] = []
 
-    for(let i = 0; i <= board.length - 1; i++){
-        for(let j = 0; j <= board[i].length - 1; j++) {
+    for(let i = 0; i < 8; i++){
+        for(let j = 0; j < 8; j++) {
             const piece = board[i][j]
             let possibleMoves: Position[] = []
             if(piece !== null && piece.color !== currentPlayer) {

@@ -1,7 +1,10 @@
-import { GameAction, GameState, Move, Piece, Position } from "../../type/chess";
-import { castlingValidMove } from "../logic/castlingValidMove";
+import { GameAction, GameState, Piece, Position } from "../../type/chess";
+import { getBoardChecks } from "../logic/getBoardChecks";
 import { getPieceMove } from "../logic/getPieceMove";
 import { getPossibleMoves } from "../logic/getPossibleMoves";
+import { getStatusGame } from "../logic/getStatusGame";
+import { isSquareAttacked } from "../logic/isSquareAttacked";
+import { initialGameState } from "./initialState";
 
 export function gameReducer ( state: GameState, action: GameAction ): GameState {
 
@@ -21,16 +24,15 @@ export function gameReducer ( state: GameState, action: GameAction ): GameState 
                     // castlingRights: null
                 }
             } else {
-                let newPossibleMoves: Position[] = getPossibleMoves(action.payload, state.board, state.checkPieces)
+                let newPossibleMoves: Position[] = getPossibleMoves(action.payload, state.board)
 
-                // const newCastlingRights = castlingValidMove(selectedPiece, state.board)
+                newPossibleMoves = newPossibleMoves.filter(targetPosition => !isSquareAttacked(targetPosition, state.board, action.payload))
 
                 return {
                     ...state,
                     selectedPiece: selectedPiece,
                     possibleMoves: newPossibleMoves,
                     moveHistory: [...state.moveHistory],
-                    // castlingRights: newCastlingRights,
                 }
             }
         } else {
@@ -45,16 +47,20 @@ export function gameReducer ( state: GameState, action: GameAction ): GameState 
         let newState: GameState = {...state}
 
         newState = getPieceMove(state, action.payload, state.selectedPiece)
+
+        const checkPieces = getBoardChecks(newState.board, newState.currentPlayer)
         
-        return newState
+        return {...newState, 
+            status: getStatusGame(newState.board, newState.currentPlayer, checkPieces),
+            checkPieces: checkPieces,
+        }
     }
-    
 
     switch(action.type) {
         case 'PROMOTE_PAWN':
             return state
         case 'RESET_GAME':
-            return state;
+            return initialGameState;
         case 'ROTATE_BOARD':
             const newBoard = state.board.map(row => {
                 return row.reverse()
