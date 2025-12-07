@@ -1,8 +1,6 @@
 import { Board, Color, GameState, Piece, PieceType, Position } from "../../type/chess"
-import { castlingValidMove } from "../logic/castlingValidMove"
 
 export function createPiece (type: PieceType, color: Color, position: Position): Piece {
-
     return {
         id: `${color}-${PieceType[type]}-${position.col}`,
         type,
@@ -13,7 +11,6 @@ export function createPiece (type: PieceType, color: Color, position: Position):
 }
 
 export function createInitialBoard (): Board {
-
     const board: Board = Array(8).fill(null).map(() => Array(8).fill(null))
 
     board[0][0] = createPiece(PieceType.ROOK, Color.BLACK, {row: 0, col: 0})
@@ -53,7 +50,6 @@ export function createInitialBoard (): Board {
     // board[7][1] = createPiece(PieceType.QUEEN, Color.WHITE, {row: 7, col: 1})
     // board[6][5] = createPiece(PieceType.QUEEN, Color.WHITE, {row: 6, col: 5})
 
-
     return board;
 }
 
@@ -65,5 +61,5 @@ export const initialGameState : GameState = {
     moveHistory: [],
     status: 'playing',
     checkPieces: [],
-    castlingRights: null,
+    specialMoves: null,
 }

@@ -23,7 +23,7 @@ export function getPieceMove (state: GameState, newPosition: Position, selectedP
     }
 }
 
-export function updateBoard (board : Board, selectedPiece: Piece, newPosition: Position): Board {
+export function updateBoard (board : Board, selectedPiece: any, newPosition: Position): Board {
 
     const prevPosition = selectedPiece.position
 
