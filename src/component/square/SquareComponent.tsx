@@ -1,48 +1,48 @@
-import { Col, Piece, Position } from "../../type/chess"
+import classNames from "classnames"
+import { Col, Piece, Position, SpecialMove } from "../../type/chess"
 import PieceComponent from "../piece/PieceComponent"
 
 import '../square/Square.css'
-
 interface SquareProps {
     piece: Piece | null,
     position: Position,
-    isSelected: boolean,
-    isPossibleMoves: boolean,
-    castlingPosition: Position[] | null
+    isPossibleMoves?: boolean,
+    isSpecialMove?: boolean,
     isCheck?: boolean,
     onChangeSelect: () => void,
     onChangeMove: () => void,
 
 }
 
-const SquareComponent: React.FC<SquareProps> = ({ piece, position, isSelected = false, isPossibleMoves, castlingPosition, isCheck, onChangeSelect, onChangeMove }) => {
+const SquareComponent: React.FC<SquareProps> = ({ piece, position, isPossibleMoves, isCheck, onChangeSelect, onChangeMove, isSpecialMove }) => {
     
     const isDark = (position.row + position.col) % 2 === 1
+
+    const handleMoveClick = () => {
+        if(isPossibleMoves || isSpecialMove) {
+            return onChangeMove()
+        }
+        if(piece !== null) {
+            return onChangeSelect()
+        }
+
+    }
     
-    const even = (element: Position) => element.col === position.col && element.row === position.row;
-
-    const isCastlingPosition = castlingPosition?.some(even)
-
-    const squareClass = `
-        square
-        ${isDark ? 'square--black' : 'square--white'}
-        ${isSelected && 'square--selected'}
-        ${isCheck && '--isCheck'}
-        ${piece && 'squere-piece'}
-
-    `.trim();
-
     return (
         <div 
-            className={squareClass}
+            className={classNames('square', {
+                ['square--black']: isDark,
+                ['square--white']: !isDark,
+                ['--isCheck']: isCheck,
+                ['squere-piece']: piece !== null,
+            })}
             onClick={() => {
-                piece && onChangeSelect()
-                isPossibleMoves && onChangeMove()
+                handleMoveClick()
             }}>
-            {piece && isCastlingPosition && <img className="--possibleMovesPiece" src="/img/possibleMovesPiece-icon.svg" alt="possible-move-icon"/>}
-            {!piece && isCastlingPosition && <img className="--possibleMoves" src="/img/possible-move-icon.png" alt="possible-move-icon"/>}
-            {piece && isPossibleMoves && <img className="--possibleMovesPiece" src="/img/possibleMovesPiece-icon.png" alt="possible-move-icon"/>}
-            {!piece && isPossibleMoves && <img className="--possibleMoves" src="/img/possible-move-icon.png" alt="possible-move-icon"/>}
+            {piece && isSpecialMove && <img className="--possibleMovesPiece" src="./img/possibleMovesPiece-icon.svg" alt="special-move-icon"/>}
+            {!piece && isSpecialMove && <img className="--possibleMoves" src="./img/possible-move-icon.png" alt="special-move-icon"/>}
+            {piece && isPossibleMoves && <img className="--possibleMovesPiece" src="./img/possibleMovesPiece-icon.png" alt="possible-move-icon"/>}
+            {!piece && isPossibleMoves && <img className="--possibleMoves" src="./img/possible-move-icon.png" alt="possible-move-icon"/>}
             {piece && (
                 <PieceComponent
                     piece={piece}
@@ -56,4 +56,4 @@ const SquareComponent: React.FC<SquareProps> = ({ piece, position, isSelected = 
     )
 }
 
-export default SquareComponent
+export default SquareComponent;

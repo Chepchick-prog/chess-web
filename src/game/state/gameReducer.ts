@@ -1,9 +1,11 @@
-import { GameAction, GameState, Piece, Position } from "../../type/chess";
+import { GameAction, GameState, Piece, Position, SpecialMove } from "../../type/chess";
 import { getBoardChecks } from "../logic/getBoardChecks";
 import { getPieceMove } from "../logic/getPieceMove";
 import { getPossibleMoves } from "../logic/getPossibleMoves";
 import { getStatusGame } from "../logic/getStatusGame";
 import { isSquareAttacked } from "../logic/isSquareAttacked";
+import { getSpecialMoves } from "../logic/moves/getSpecialMoves";
+import { SpecialMovePiece } from "../logic/SpecialMovePiece";
 import { initialGameState } from "./initialState";
 
 export function gameReducer ( state: GameState, action: GameAction ): GameState {
@@ -21,18 +23,21 @@ export function gameReducer ( state: GameState, action: GameAction ): GameState 
                     ...state,
                     selectedPiece: null,
                     possibleMoves: [],
+                    specialMoves: null,
                     // castlingRights: null
                 }
             } else {
                 let newPossibleMoves: Position[] = getPossibleMoves(action.payload, state.board)
-
                 newPossibleMoves = newPossibleMoves.filter(targetPosition => !isSquareAttacked(targetPosition, state.board, action.payload))
+                const specialMoves = getSpecialMoves(action.payload, state.board)
 
+                console.log('specialMoves', specialMoves)
                 return {
                     ...state,
                     selectedPiece: selectedPiece,
                     possibleMoves: newPossibleMoves,
                     moveHistory: [...state.moveHistory],
+                    specialMoves: specialMoves,
                 }
             }
         } else {
@@ -46,13 +51,19 @@ export function gameReducer ( state: GameState, action: GameAction ): GameState 
 
         let newState: GameState = {...state}
 
-        newState = getPieceMove(state, action.payload, state.selectedPiece)
+        if(state.specialMoves?.position.some(position => position.row === action.payload.row && position.col === action.payload.col)) {
+            newState = SpecialMovePiece(state, action.payload, state.selectedPiece)
+        } else {
+            newState = getPieceMove(state, action.payload, state.selectedPiece)
+        }
+
 
         const checkPieces = getBoardChecks(newState.board, newState.currentPlayer)
         
         return {...newState, 
             status: getStatusGame(newState.board, newState.currentPlayer, checkPieces),
             checkPieces: checkPieces,
+            specialMoves: null,
         }
     }
 

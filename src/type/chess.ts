@@ -5,8 +5,12 @@ export enum Color { WHITE, BLACK };
 export type Position = {row: number, col: number}
 export type Board = (Piece | null)[][];
 export type GameStatus = 'playing' | 'check' | 'checkmate' | 'stalemate'
-export type SpecialMove = 'castling' | 'en_passent' | 'promotion'
+export type SpecialMoveType = 'castling' | 'en_passent' | 'promotion'
 
+export interface SpecialMove {
+    type: SpecialMoveType,
+    position: Position[],
+}
 export interface Piece {
     id: string,
     type: PieceType,
@@ -33,7 +37,7 @@ export interface GameState {
     moveHistory: Move[],
     status: GameStatus,
     checkPieces: Piece[],
-    castlingRights: Position[] | null;
+    specialMoves: SpecialMove | null,
 }
 
 export type GameAction = 

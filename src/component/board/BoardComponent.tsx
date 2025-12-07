@@ -39,6 +39,21 @@ function BoardComponent () {
         return isActive
     }
 
+    const specialMoves = (rowIndex: number, colIndex: number): boolean => {
+
+        let isActive: boolean = false
+        
+        gameState.specialMoves?.position.map(item => {
+            if((item.row === rowIndex) && (item.col === colIndex)) {
+                return  isActive = true
+            } else {
+                return isActive
+            }
+        })
+
+        return isActive
+    }
+
     function changeCheck (piece: Piece | null): boolean {
 
         let isActive: boolean = false
@@ -61,13 +76,12 @@ function BoardComponent () {
             {gameState.board.map((row, rowIndex) => (
                 <div key={rowIndex} className="row">
                     {row.map((piece, colIndex) => (
-                        <SquareComponent 
+                        <SquareComponent
                             key={piece?.id || `${rowIndex}-${colIndex}`}
                             piece={piece}
                             position={{row: rowIndex, col: colIndex}}
-                            isSelected={gameState.selectedPiece?.position.row === rowIndex && gameState.selectedPiece?.position.col === colIndex}
                             isPossibleMoves={possibleMoves(rowIndex, colIndex)}
-                            castlingPosition={gameState.castlingRights}
+                            isSpecialMove={specialMoves(rowIndex, colIndex)}
                             isCheck={changeCheck(piece)}
                             onChangeSelect={() => piece && handleSelectedPiece(piece)}
                             onChangeMove={() => handleMovePiece({row: rowIndex, col: colIndex})}

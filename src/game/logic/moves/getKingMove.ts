@@ -1,316 +1,84 @@
-import { Piece, Board, Position, PieceType } from "../../../type/chess"
+import { Piece, Board, Position } from "../../../type/chess"
+
+const isSquareValid = (position: Position): boolean => {
+    return (position.row >= 0 && position.row <= 7) && (position.col >= 0 && position.col <= 7)
+}
 
 export const getKingMove = (piece: Piece, board: Board): Position[] => {
-
     const position = piece.position
-
     let possibleMoves: Position[] = []
+    let moveSquare: Piece | null
+    let isValid: boolean
 
-    // if(!piece.hasMoved) {
-    //     for(let i = 1; i < board.length; i++) {
-
-    //         const activeSquare = {row: piece.position.row, col: piece.position.col - i}
-
-    //         console.log(activeSquare)
-
-    //         if(board[activeSquare.row][activeSquare.col] !== null) {
-    //             const selectPiece = board[activeSquare.row][activeSquare.col]
-    //             if(selectPiece?.type === PieceType.ROOK) {
-    //                 possibleMoves.push(
-    //                     {
-    //                         row: selectPiece.position.row,
-    //                         col: selectPiece.position.col
-    //                     },
-    //                     {
-    //                         row: piece.position.row,
-    //                         col: piece.position.col - 2
-    //                     },
-    //                 )
-                    
-    //             } else {
-    //                 console.log("Фигура на пути")
-    //                 break;
-    //             }
-    //         }
-    //     }
-
-    //     for(let i = 1; i < board.length; i++) {
-
-    //         const activeSquare = {row: piece.position.row, col: piece.position.col + i}
-
-    //         console.log(activeSquare)
-
-    //         if(board[activeSquare.row][activeSquare.col] !== null) {
-    //             const selectPiece = board[activeSquare.row][activeSquare.col]
-                
-    //             if(selectPiece?.type === PieceType.ROOK) {
-    //                 possibleMoves.push(
-    //                     {
-    //                         row: selectPiece.position.row,
-    //                         col: selectPiece.position.col
-    //                     },
-    //                     {
-    //                         row: piece.position.row,
-    //                         col: piece.position.col + 2
-    //                     },
-    //                 )
-                    
-    //             } else {
-    //                 console.log("Фигура на пути")
-    //                 break;
-    //             }
-    //         }
-    //     }
-    // }
-
-    for(let i = 1; i <= 1; i ++) {
-
-        const activeSquare = {row: position.row - i, col: position.col - i}
-
-        if((activeSquare.row >= 0 && activeSquare.row <= 7) && (activeSquare.col >= 0 && activeSquare.col <= 7)) {
-            const isValid = board[activeSquare.row][activeSquare.col]
-
-            if (isValid?.color === piece.color) {
-                break;
-            } else {
-                if (isValid === null) {
-                    possibleMoves.push(
-                        {
-                            row: position.row - i,
-                            col: position.col - i
-                        },
-                    )
-
-                } else {
-                    possibleMoves.push(
-                        {
-                            row: position.row - i,
-                            col: position.col - i
-                        },
-                    )
-
-                    break;
-                }
-            }
+    const topSquare = {row: position.row - 1, col: position.col}
+    if(isSquareValid(topSquare)){
+        moveSquare  = board[topSquare.row][topSquare.col]
+        isValid = moveSquare === null || moveSquare?.color !== piece.color
+        if(isValid) {
+            possibleMoves.push(topSquare)
         }
-
     }
-
-    for(let i = 1; i <= 1; i ++) {
-
-        const activeSquare = {row: position.row + i, col: position.col + i}
-
-        if((activeSquare.row >= 0 && activeSquare.row <= 7) && (activeSquare.col >= 0 && activeSquare.col <= 7)) {
-            const isValid = board[activeSquare.row][activeSquare.col]
-
-            if (isValid?.color === piece.color) {
-                break;
-            } else {
-                if (isValid === null) {
-                    possibleMoves.push(
-                        {
-                            row: position.row + i,
-                            col: position.col + i
-                        },
-                    )
-
-                } else {
-                    possibleMoves.push(
-                        {
-                            row: position.row + i,
-                            col: position.col + i
-                        },
-                    )
-
-                    break;
-                }
-            }
-        } 
-    }
-
-    for(let i = 1; i <= 1; i ++) {
-
-        const activeSquare = {row: position.row + i, col: position.col - i}
-
-        if((activeSquare.row >= 0 && activeSquare.row <= 7) && (activeSquare.col >= 0 && activeSquare.col <= 7)) {
-            const isValid = board[activeSquare.row][activeSquare.col]
-
-            if (isValid?.color === piece.color) {
-                break;
-            } else {
-                if (isValid === null) {
-                    possibleMoves.push(
-                        {
-                            row: position.row + i,
-                            col: position.col - i
-                        },
-                    )
-                } else {
-                    possibleMoves.push(
-                        {
-                            row: position.row + i,
-                            col: position.col - i
-                        },
-                    )
-
-                    break;
-                }
-            }
+    
+    const bottomSquare = {row: position.row + 1, col: position.col}
+    if(isSquareValid(bottomSquare)){
+        moveSquare = board[bottomSquare.row][bottomSquare.col]
+        isValid = moveSquare === null || moveSquare?.color !== piece.color
+        if(isValid) {
+            possibleMoves.push(bottomSquare)
         }
     }
 
-    for(let i = 1; i <= 1; i ++) {
-
-        const activeSquare = {row: position.row - i, col: position.col + i}
-
-        if((activeSquare.row >= 0 && activeSquare.row <= 7) && (activeSquare.col >= 0 && activeSquare.col <= 7)) {
-            const isValid = board[activeSquare.row][activeSquare.col]
-
-            if (isValid?.color === piece.color) {
-                break;
-            } else {
-                if (isValid === null) {
-                    possibleMoves.push(
-                        {
-                            row: position.row - i,
-                            col: position.col + i
-                        },
-                    )
-                } else {
-                    possibleMoves.push(
-                        {
-                            row: position.row - i,
-                            col: position.col + i
-                        },
-                    )
-
-                    break;
-                }
-            }
+    const leftSquare = {row: position.row, col: position.col - 1}
+    if(isSquareValid(leftSquare)){
+        moveSquare = board[leftSquare.row][leftSquare.col]
+        isValid = moveSquare === null || moveSquare?.color !== piece.color
+        if(isValid) {
+            possibleMoves.push(leftSquare)
         }
     }
 
-    for(let i = 1; i <= 1; i ++) {
-
-        const activeSquare = {row: position.row - i, col: position.col}
-
-        if((activeSquare.row >= 0 && activeSquare.row <= 7) && (activeSquare.col >= 0 && activeSquare.col <= 7)) {
-            const isValid = board[activeSquare.row][activeSquare.col]
-
-            if (isValid?.color === piece.color) {
-                break;
-            } else {
-                if (isValid === null) {
-                    possibleMoves.push(
-                        {
-                            row: position.row - i,
-                            col: position.col,
-                        },
-                    )
-                } else {
-                    possibleMoves.push(
-                        {
-                            row: position.row - i,
-                            col: position.col,
-                        },
-                    )
-
-                    break;
-                }
-            }
+    const rightSquare = {row: position.row, col: position.col + 1}
+    if(isSquareValid(rightSquare)){
+        moveSquare = board[rightSquare.row][rightSquare.col]    
+        isValid = moveSquare === null || moveSquare?.color !== piece.color
+        if(isValid) {
+            possibleMoves.push(rightSquare)
         }
     }
 
-    for(let i = 1; i <= 1; i ++) {
-
-        const activeSquare = {row: position.row + i, col: position.col}
-
-        if((activeSquare.row >= 0 && activeSquare.row <= 7) && (activeSquare.col >= 0 && activeSquare.col <= 7)) {
-            const isValid = board[activeSquare.row][activeSquare.col]
-
-            if (isValid?.color === piece.color) {
-                break;
-            } else {
-                if (isValid === null) {
-                    possibleMoves.push(
-                        {
-                            row: position.row + i,
-                            col: position.col,
-                        },
-                    )
-                } else {
-                    possibleMoves.push(
-                        {
-                            row: position.row + i,
-                            col: position.col,
-                        },
-                    )
-
-                    break;
-                }
-            }
+    const topLeftSquare = {row: position.row - 1, col: position.col - 1}
+    if(isSquareValid(topLeftSquare)){
+        moveSquare = board[topLeftSquare.row][topLeftSquare.col]
+        isValid = moveSquare === null || moveSquare?.color !== piece.color
+        if(isValid) {
+            possibleMoves.push(topLeftSquare)
         }
     }
 
-    for (let i = 1; i <= 1; i ++) {
-
-        const activeSquare = {row: position.row, col: position.col - i}
-
-        if((activeSquare.row >= 0 && activeSquare.row <= 7) && (activeSquare.col >= 0 && activeSquare.col <= 7)) {
-            const isValid = board[activeSquare.row][activeSquare.col]
-
-            if (isValid?.color === piece.color) {
-                break;
-            } else {
-                if (isValid === null) {
-                    possibleMoves.push(
-                        {
-                            row: position.row,
-                            col: position.col - i,
-                        },
-                    )
-                } else {
-                    possibleMoves.push(
-                        {
-                            row: position.row,
-                            col: position.col - i,
-                        },
-                    )
-
-                    break;
-                }
-            }
+    const topRightSquare = {row: position.row - 1, col: position.col + 1}
+    if(isSquareValid(topRightSquare)){
+        moveSquare = board[topRightSquare.row][topRightSquare.col]
+        isValid = moveSquare === null || moveSquare?.color !== piece.color
+        if(isValid) {
+            possibleMoves.push(topRightSquare)
         }
     }
 
-    for(let i = 1; i <= 1; i ++) {
+    const bottomLeftSquare = {row: position.row + 1, col: position.col - 1}
+    if(isSquareValid(bottomLeftSquare)){
+        moveSquare = board[bottomLeftSquare.row][bottomLeftSquare.col]
+        isValid = moveSquare === null || moveSquare?.color !== piece.color
+        if(isValid) {
+            possibleMoves.push(bottomLeftSquare)
+        }
+    }
 
-        const activeSquare = {row: position.row, col: position.col + i}
-
-        if((activeSquare.row >= 0 && activeSquare.row <= 7) && (activeSquare.col >= 0 && activeSquare.col <= 7)) {
-            const isValid = board[activeSquare.row][activeSquare.col]
-
-            if (isValid?.color === piece.color) {
-                break;
-            } else {
-                if (isValid === null) {
-                    possibleMoves.push(
-                        {
-                            row: position.row,
-                            col: position.col + i,
-                        },
-                    )
-                } else {
-                    possibleMoves.push(
-                        {
-                            row: position.row,
-                            col: position.col + i,
-                        },
-                    )
-
-                    break;
-                }
-            }
+    const bottomRightSquare = {row: position.row + 1, col: position.col + 1}
+    if(isSquareValid(bottomRightSquare)){
+        moveSquare = board[bottomRightSquare.row][bottomRightSquare.col]
+        isValid = moveSquare === null || moveSquare?.color !== piece.color
+        if(isValid) {
+            possibleMoves.push(bottomRightSquare)
         }
     }
 
