@@ -1,4 +1,4 @@
-import { GameAction, GameState, Piece, Position, SpecialMove } from "../../type/chess";
+import { GameAction, GameState, Piece, Position } from "../../type/chess";
 import { getBoardChecks } from "../logic/getBoardChecks";
 import { getPieceMove } from "../logic/getPieceMove";
 import { getPossibleMoves } from "../logic/getPossibleMoves";
@@ -24,12 +24,11 @@ export function gameReducer ( state: GameState, action: GameAction ): GameState 
                     selectedPiece: null,
                     possibleMoves: [],
                     specialMoves: null,
-                    // castlingRights: null
                 }
             } else {
                 let newPossibleMoves: Position[] = getPossibleMoves(action.payload, state.board)
                 newPossibleMoves = newPossibleMoves.filter(targetPosition => !isSquareAttacked(targetPosition, state.board, action.payload))
-                const specialMoves = getSpecialMoves(action.payload, state.board)
+                const specialMoves = getSpecialMoves(action.payload, state.board, state.status)
 
                 console.log('specialMoves', specialMoves)
                 return {

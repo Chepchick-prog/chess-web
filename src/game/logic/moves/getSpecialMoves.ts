@@ -1,10 +1,10 @@
-import { Board, Piece, PieceType, Position, SpecialMove, SpecialMoveType } from "../../../type/chess";
+import { Board, GameStatus, Piece, PieceType, SpecialMove } from "../../../type/chess";
 import { getCastlingMoves } from "./special/getCastlingMoves";
 import { getEnPassentMoves } from "./special/getEnPassentMoves";
 
-export const getSpecialMoves = (piece: Piece, board: Board): SpecialMove | null => {
+export const getSpecialMoves = (piece: Piece, board: Board, status: GameStatus): SpecialMove | null => {
 
-    if(piece.type === PieceType.KING) {
+    if(piece.type === PieceType.KING && status === 'playing') {
         return {
             type: 'castling',
             position: getCastlingMoves(piece, board),
