@@ -28,7 +28,7 @@ export function gameReducer ( state: GameState, action: GameAction ): GameState 
             } else {
                 let newPossibleMoves: Position[] = getPossibleMoves(action.payload, state.board)
                 newPossibleMoves = newPossibleMoves.filter(targetPosition => !isSquareAttacked(targetPosition, state.board, action.payload))
-                const specialMoves = getSpecialMoves(action.payload, state.board, state.status)
+                const specialMoves = getSpecialMoves(action.payload, state.board, state.status, state.moveHistory)
 
                 console.log('specialMoves', specialMoves)
                 return {
@@ -55,7 +55,6 @@ export function gameReducer ( state: GameState, action: GameAction ): GameState 
         } else {
             newState = getPieceMove(state, action.payload, state.selectedPiece)
         }
-
 
         const checkPieces = getBoardChecks(newState.board, newState.currentPlayer)
         
