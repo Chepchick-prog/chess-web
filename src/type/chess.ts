@@ -4,8 +4,8 @@ export enum PieceType { PAWN, KNIGHT, BISHOP, ROOK, QUEEN, KING };
 export enum Color { WHITE, BLACK };
 export type Position = {row: number, col: number}
 export type Board = (Piece | null)[][];
-export type GameStatus = 'playing' | 'check' | 'checkmate' | 'stalemate'
-export type SpecialMoveType = 'castling' | 'en_passent' | 'promotion'
+export type GameStatus = 'playing' | 'check' | 'checkmate' | 'stalemate' | 'promote'
+export type SpecialMoveType = 'castling' | 'enPassent'
 
 export interface SpecialMove {
     type: SpecialMoveType,
@@ -43,6 +43,6 @@ export interface GameState {
 export type GameAction = 
     | { type: 'SELECT_PIECE'; payload: Piece }
     | { type: 'MOVE_PIECE'; payload: Position }
-    | { type: 'PROMOTE_PAWN'; payload: PieceType }
+    | { type: 'PROMOTE_PAWN'; payload: {selectedPiece: Piece, promotion: PieceType} }
     | { type: 'RESET_GAME' }
     | { type: 'ROTATE_BOARD' }

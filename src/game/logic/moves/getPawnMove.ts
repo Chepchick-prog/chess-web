@@ -1,47 +1,42 @@
 import { Board, Piece, Position } from "../../../type/chess"
 
 export const getPawnMove = (piece: Piece, board: Board): Position[] => {
-
-    let moveCount: number = 2;
-    piece.hasMoved && (moveCount = 1);
-    const position = piece.position
     const possibleMoves: Position[] = []
+    const position = piece.position
+    const direction = piece.color === 0 ? -1 : 1
+    const startRow = piece.color === 0 ? 6 : 1
+    const maxStep = (piece.hasMoved || piece.position.row !== startRow) ? 1 : 2
 
-    for(let i = 1; i <= moveCount; i++) {
-        if(piece.color === 0) { 
-            const activeSquare = {row: position.row - i, col: position.col}
-            const isValid = board[activeSquare.row][activeSquare.col] === null
-            const squareAttacked = [board[position.row - 1][position.col + 1], board[position.row - 1][position.col - 1]]
-            const thisOpponents = squareAttacked.filter(piece => piece !== null && piece?.color === 1) as Piece[]
+    for(let i = 1; i <= maxStep; i++) {
 
-            if(!isValid) {
-                break;
-            } else {
-                possibleMoves.push(activeSquare)
-            }
-            if(thisOpponents.length > 0) {
-                thisOpponents.forEach(piece => {
-                    possibleMoves.push({row: piece.position.row, col: piece.position.col})
-                })
-            }
+        const newRow = position.row + (direction * i)
+
+        if(newRow < 0 || newRow > 7) break
+
+        const targetSquare = board[newRow][position.col]
+
+        if(targetSquare === null) {
+            possibleMoves.push({row: newRow, col: position.col})
+        } else {
+            break;
         }
-        if(piece.color === 1) {
-            const activeSquare = {row: position.row + i, col: position.col}
-            const isValid = board[activeSquare.row][activeSquare.col] === null
-            const squareAttacked = [board[position.row + 1][position.col + 1], board[position.row + 1][position.col - 1]]
-            const thisOpponents = squareAttacked.filter(piece => piece !== null && piece?.color === 0) as Piece[]
+    }
 
-            if(!isValid) {
-                break;
-            } else {
-                possibleMoves.push(activeSquare)
+    const attackRow = position.row + direction
+
+    if(attackRow >= 0 && attackRow <= 7) {
+
+        const attackCols = [position.col - 1, position.col + 1]
+
+        attackCols.forEach(attackCol => {
+            if(attackCol < 0 || attackCol > 7) return
+
+            const targetPiece = board[attackRow][attackCol]
+
+            if(targetPiece !== null && targetPiece.color !== piece.color) {
+                possibleMoves.push({row: attackRow, col: attackCol})
             }
-            if(thisOpponents.length > 0) {
-                thisOpponents.forEach(piece => {
-                    possibleMoves.push({row: piece.position.row, col: piece.position.col})
-                })
-            }
-        }
+        })
     }
 
     return possibleMoves;

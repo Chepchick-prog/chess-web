@@ -1,13 +1,15 @@
 import BoardComponent from './component/board/BoardComponent';
 import { ActionComponent } from './component/features/ActionComponent';
+import { ModalProvider } from './component/modal/ui/ModalProvider';
 import ChessProvider from './context/ChessContext';
+
 import './style/global.css';
 
 function App() {
-
   return (
     <main>
       <ChessProvider>
+        <ModalProvider />
         <ActionComponent>
           <BoardComponent/>
         </ActionComponent>
