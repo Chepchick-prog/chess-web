@@ -8,48 +8,48 @@
     height: 100%;
 }
 
-.square .row-index {
+.square .row_index {
     top: 5px;
     right: 5px;
     position: absolute;
 }
 
-.square .col-index {
+.square .col_index {
     bottom: 5px;
     left: 5px;
     position: absolute;
 }
 
-.square--black {
+.square_black {
     background-color: #4A4135;
 }
 
-.squere-piece {
+.squere_piece {
     cursor: grab;
 }
 
-.square--white {
+.square_white {
     background-color: #FFD8B4;
 }
 
-.square--selected {
+.square_selected {
     background-color: rgb(81, 122, 79);
 }
 
-.--possibleMoves {
+._possibleMoves {
     cursor: pointer;
     position: absolute;
     width: 100%;
     height: 100%;
 }
 
-.--possibleMovesPiece {
+._possibleMovesPiece {
     cursor: pointer;
     position: absolute;
     width: 100%;
     height: 100%;
 }
 
-.--isCheck {
+._isCheck {
     background-color: red;
 }

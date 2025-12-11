@@ -1,5 +1,5 @@
 import classNames from "classnames"
-import { Col, Piece, Position, SpecialMove } from "../../type/chess"
+import { Col, Piece, Position } from "../../type/chess"
 import PieceComponent from "../piece/PieceComponent"
 
 import '../square/Square.css'
@@ -31,26 +31,26 @@ const SquareComponent: React.FC<SquareProps> = ({ piece, position, isPossibleMov
     return (
         <div 
             className={classNames('square', {
-                ['square--black']: isDark,
-                ['square--white']: !isDark,
-                ['--isCheck']: isCheck,
-                ['squere-piece']: piece !== null,
+                'square_black': isDark,
+                'square_white': !isDark,
+                '_isCheck': isCheck,
+                'squere_piece': piece !== null,
             })}
             onClick={() => {
                 handleMoveClick()
             }}>
-            {piece && isSpecialMove && <img className="--possibleMovesPiece" src="./img/possibleMovesPiece-icon.svg" alt="special-move-icon"/>}
-            {!piece && isSpecialMove && <img className="--possibleMoves" src="./img/possible-move-icon.png" alt="special-move-icon"/>}
-            {piece && isPossibleMoves && <img className="--possibleMovesPiece" src="./img/possibleMovesPiece-icon.png" alt="possible-move-icon"/>}
-            {!piece && isPossibleMoves && <img className="--possibleMoves" src="./img/possible-move-icon.png" alt="possible-move-icon"/>}
+            {piece && isSpecialMove && <img className="_possibleMovesPiece" src="./img/possibleMovesPiece-icon.svg" alt="special-move-icon"/>}
+            {!piece && isSpecialMove && <img className="_possibleMoves" src="./img/possible-move-icon.png" alt="special-move-icon"/>}
+            {piece && isPossibleMoves && <img className="_possibleMovesPiece" src="./img/possibleMovesPiece-icon.png" alt="possible-move-icon"/>}
+            {!piece && isPossibleMoves && <img className="_possibleMoves" src="./img/possible-move-icon.png" alt="possible-move-icon"/>}
             {piece && (
                 <PieceComponent
                     piece={piece}
                     position={position}
                 />
             )}
-            {position.col === 7 && <h4 className="row-index">{8 - position.row}</h4>}
-            {position.row === 7 && <h4 className="col-index">{Col[position.col]}</h4>}
+            {position.col === 7 && <h4 className="row_index">{8 - position.row}</h4>}
+            {position.row === 7 && <h4 className="col_index">{Col[position.col]}</h4>}
             
         </div>
     )

@@ -1,4 +1,4 @@
-import { GameAction, GameState, Piece, Position, SpecialMove } from "../../type/chess";
+import { GameAction, GameState, Piece, Position } from "../../type/chess";
 import { getBoardChecks } from "../logic/getBoardChecks";
 import { getPieceMove } from "../logic/getPieceMove";
 import { getPossibleMoves } from "../logic/getPossibleMoves";

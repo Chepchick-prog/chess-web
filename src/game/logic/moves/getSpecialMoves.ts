@@ -1,4 +1,4 @@
-import { Board, Piece, PieceType, Position, SpecialMove, SpecialMoveType } from "../../../type/chess";
+import { Board, Piece, PieceType, SpecialMove } from "../../../type/chess";
 import { getCastlingMoves } from "./special/getCastlingMoves";
 import { getEnPassentMoves } from "./special/getEnPassentMoves";
 

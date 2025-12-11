@@ -1,5 +1,5 @@
 import { useGameState, useGameDispatch } from "../../context/ChessContext"
-import { Col, Color } from "../../type/chess"
+import { Color } from "../../type/chess"
 
 interface ActionComponentProps {
     children: React.ReactNode

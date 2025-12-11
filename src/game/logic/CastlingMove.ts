@@ -1,4 +1,4 @@
-import { Board, Piece, PieceType, Position } from "../../type/chess";
+import { Board, Position } from "../../type/chess";
 import { updateBoard } from "./getPieceMove";
 
 export const CastlingMove = (board : Board, position: Position): Board => {

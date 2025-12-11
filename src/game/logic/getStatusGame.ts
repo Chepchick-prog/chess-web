@@ -1,4 +1,4 @@
-import { Board, Color, GameStatus, Piece, PieceType } from "../../type/chess"
+import { Board, Color, GameStatus, Piece } from "../../type/chess"
 import { getPossibleMoves } from "./getPossibleMoves"
 import { isSquareAttacked } from "./isSquareAttacked"
 
