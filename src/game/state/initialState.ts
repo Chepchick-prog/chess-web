@@ -53,11 +53,11 @@ export function createInitialBoard (): Board {
     board[7][4] = createPiece(PieceType.KING, Color.WHITE, {row: 7, col: 4})
     board[0][4] = createPiece(PieceType.KING, Color.BLACK, {row: 0, col: 4})
 
-    board[3][2] = createPiece(PieceType.PAWN, Color.WHITE, {row: 3, col: 2})
+    board[1][1] = createPiece(PieceType.PAWN, Color.WHITE, {row: 1, col: 1})
+    board[6][2] = createPiece(PieceType.PAWN, Color.BLACK, {row: 6, col: 2})
+
     board[6][5] = createPiece(PieceType.PAWN, Color.WHITE, {row: 6, col: 5})
     board[4][4] = createPiece(PieceType.PAWN, Color.BLACK, {row: 4, col: 4})
-    board[1][3] = createPiece(PieceType.PAWN, Color.BLACK, {row: 1, col: 3})
-
 
     return board;
 }

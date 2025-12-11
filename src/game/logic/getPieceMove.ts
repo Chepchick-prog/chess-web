@@ -9,8 +9,6 @@ export function getPieceMove (state: GameState, newPosition: Position, selectedP
     return {...state,
         board: newBoard,
         currentPlayer: currentPlayer,
-        selectedPiece: null,
-        possibleMoves: [],
         moveHistory: [
             ...state.moveHistory,
             {

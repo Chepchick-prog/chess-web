@@ -1,10 +1,11 @@
-import { GameAction, GameState, Piece, Position } from "../../type/chess";
+import { Color, GameAction, GameState, Piece, PieceType, Position } from "../../type/chess";
 import { getBoardChecks } from "../logic/getBoardChecks";
 import { getPieceMove } from "../logic/getPieceMove";
 import { getPossibleMoves } from "../logic/getPossibleMoves";
 import { getStatusGame } from "../logic/getStatusGame";
 import { isSquareAttacked } from "../logic/isSquareAttacked";
 import { getSpecialMoves } from "../logic/moves/getSpecialMoves";
+import { PromotePiece } from "../logic/PromotePiece";
 import { SpecialMovePiece } from "../logic/SpecialMovePiece";
 import { initialGameState } from "./initialState";
 
@@ -57,17 +58,36 @@ export function gameReducer ( state: GameState, action: GameAction ): GameState 
         }
 
         const checkPieces = getBoardChecks(newState.board, newState.currentPlayer)
-        
+
         return {...newState, 
             status: getStatusGame(newState.board, newState.currentPlayer, checkPieces),
             checkPieces: checkPieces,
             specialMoves: null,
+            selectedPiece: null,
+            possibleMoves: [],
+        }
+    }
+
+    if(action.type === 'PROMOTE_PAWN') {
+        const newPosition = state.moveHistory[state.moveHistory.length - 1].to
+        const currentPlayer: Color = action.payload.selectedPiece.color === 0 ? 1 : 0
+
+        console.log(newPosition)
+        const newBoard = PromotePiece(state.board, action.payload.selectedPiece, action.payload.promotion, newPosition);
+
+        const checkPieces = getBoardChecks(newBoard, currentPlayer)
+
+        return {...state, 
+            board: newBoard,
+            status: getStatusGame(newBoard, currentPlayer, checkPieces),
+            checkPieces: checkPieces,
+            specialMoves: null,
+            selectedPiece: null,
+            possibleMoves: [],
         }
     }
 
     switch(action.type) {
-        case 'PROMOTE_PAWN':
-            return state
         case 'RESET_GAME':
             return initialGameState;
         case 'ROTATE_BOARD':
