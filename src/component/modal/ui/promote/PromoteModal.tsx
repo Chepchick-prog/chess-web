@@ -1,5 +1,5 @@
 import { FC } from "react"
-import { Color, PieceType, Position } from "../../../../type/chess"
+import { Color, PieceType } from "../../../../type/chess"
 import { useModalStore } from "../../model/store"
 
 import './PromoteModal.css'
