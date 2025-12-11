@@ -3,11 +3,13 @@ import SquareComponent from "../square/SquareComponent";
 import '../board/Board.css'
 import { Piece, PieceType, Position } from "../../type/chess";
 import { useGameState, useGameDispatch } from "../../context/ChessContext";
+import { useModalStore } from "../modal/model/store";
 
 function BoardComponent () {
 
     const gameState = useGameState()
     const dispatch = useGameDispatch()
+    const {showModal} = useModalStore()
 
     const handleSelectedPiece = ({...piece}: Piece) => {
         dispatch({
@@ -17,6 +19,11 @@ function BoardComponent () {
     }
 
     const handleMovePiece = ({...position}: Position) => {
+        
+        if(gameState.selectedPiece?.type === PieceType.PAWN && (position.row === 0 || position.row === 7)) {
+            showModal('promote', gameState.selectedPiece)
+        }
+
         dispatch({
             type: 'MOVE_PIECE',
             payload : position

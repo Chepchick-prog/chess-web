@@ -1,5 +1,6 @@
 import { Board, GameState, Piece, Position } from "../../type/chess"
 import { CastlingMove } from "./CastlingMove";
+import { EnPassantMove } from "./EnPassantMove";
 
 export const SpecialMovePiece = (state: GameState, position: Position, piece: Piece): GameState => {
 
@@ -7,6 +8,9 @@ export const SpecialMovePiece = (state: GameState, position: Position, piece: Pi
 
     if(state.specialMoves?.type === 'castling') {
         board = CastlingMove(state.board, position)
+    }
+    else if(state.specialMoves?.type === 'enPassent') {
+        board = EnPassantMove(state.board, position, piece)
     }
 
     return {...state,
